@@ -30,5 +30,3 @@ class App < E
     render
   end
 end
-
-App.run
