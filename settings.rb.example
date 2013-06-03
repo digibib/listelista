@@ -1,0 +1,4 @@
+module Settings
+  USER = "admin"
+  PASSWORD = "secret"
+end
