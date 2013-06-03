@@ -1,4 +1,5 @@
 module Settings
   USER = "admin"
   PASSWORD = "secret"
+  API = "http://data.deichman.no/api/reviews"
 end
