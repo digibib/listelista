@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="no">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Brukergenererte anbefalingslister</title>
+  <meta name="author" content="Deichmanske Bibliotek">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <style>
+	  html,body { margin:1em; padding:0; background:#eee; font-family: Arial; font-size:100%;}
+	#container { border: 2px solid black; padding: 1em; width: 800px; margin:auto; background:#fff;}
+	.clearfix { clear:both;}
+	.kilde { background:#eee; font-size: 14px; width:98%; padding: 1%; margin-bottom:1em;}
+	.ny-kilde { background:#ded; font-size: 14px; width:98%; padding: 1%; margin-bottom:1em;}
+	.kilde-navn { font-size: 1.5em; display:inline-block; float:left; cursor: pointer;}
+	.kilde-navn-ny { font-size: 1.5em; display:inline-block; float:left;}
+	.kilde-info { padding: 1em 0; margin-bottom: 1em;}
+	.kilde-innhold { clear: both; display: none;}
+	.triangle { font-size:1.5em; display:inline-block; float:right; cursor: pointer;}
+	.close:after {content: '▲'; }
+	.open:after {content: '▼'; }
+	label { font-weight: bold; margin:1em;}
+	li { margin: 10px 0;}
+	h3 { margin-left: 1em; border-bottom:1px solid #888;}
+  </style>
+</head>
+
+<body>
+  <div id="container">
+	  <h2>Brukergenererte anbefalingslister</h2>
+	  <% @lists.each do |list| %>
+	    <div class="kilde">
+	    	<div class="kilde-navn"><%= list["label"] %></div>
+	    	<div class="triangle open"></div>
+	    	<div class="clearfix"></div>
+	    	<div class="kilde-innhold">
+		    	<div class="kilde-info">
+		    	  <label>URI:</label> &lt;<span class="uri"><%= list["uri"] %></span>&gt;
+		    	</div>
+	    		<ol>
+		    		<% list["items"].each do |review| %>
+		    			<li><a href="http://anbefalinger.deichman.no/anbefaling/<%= review[24..-1] %>"><%= review %></a></li>
+		    		<% end %>
+		    	</ol>
+	    	</div>
+	    </div>
+	  <% end %>
+	</div>
+
+	<script>
+	  $(document).ready(function() {
+
+	    // Hide source details
+	    $('#container').on('click', '.triangle.close', function() {
+	      $(this).removeClass("close").addClass("open");
+	      $(this).next().next().slideUp();
+	    });
+
+	    // Show source details
+	    $('#container').on('click', '.triangle.open', function() {
+	      $('.kilde-innhold').slideUp();
+	      $('.close').removeClass("close").addClass("open");
+	      $(this).removeClass("open").addClass("close");
+	      $(this).next().next().slideDown();
+	    });
+
+	    // When name is clicked - delegate to nearest triangle
+	    $('#container').on('click', '.kilde-navn', function() {
+	      $(this).next().click();
+	    });
+
+	  });
+	</script>
+</body>
+</html>
