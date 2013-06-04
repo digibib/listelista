@@ -6,12 +6,16 @@ class Review
 
   def initialize(uri)
      raw = Cache.get(uri, :reviews) {
-       res = Http.get(Settings::API, :body => {:uri => uri})
+       res = Faraday.get(Settings::API) do |req|
+        req.body = {:uri => uri}.to_json
+      end
+       res = JSON.parse(res.body)
        if res["error"] == "no reviews found"
          @invalid = true
          return
        end
        Cache.set(uri, res, :reviews)
+       res
      }
     unless raw["works"].size > 0
       @invalid = true

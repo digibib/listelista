@@ -1,6 +1,6 @@
 # encoding: UTF-8
 require "e"
-require "http"
+require 'faraday'
 require "json"
 
 require_relative "settings.rb"
@@ -15,8 +15,8 @@ class App < E
   end
 
   def index
-    lists = Http.get("http://marc2rdf.deichman.no/api/users/mylists")
-    lists = JSON.parse(lists)["mylists"].first
+    res = Faraday.get("http://marc2rdf.deichman.no/api/users/mylists")
+    lists = JSON.parse(res.body)["mylists"].first
     @lists = []
     lists.each do |list|
       list["items"].map! {
@@ -26,7 +26,6 @@ class App < E
       }
       @lists << list
     end
-    puts @lists.first
     render
   end
 end
