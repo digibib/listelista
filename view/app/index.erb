@@ -40,6 +40,7 @@
 	    	<div class="kilde-innhold">
 		    	<div class="kilde-info">
 		    	  <label>URI:</label> &lt;<span class="uri"><%= list["uri"] %></span>&gt;
+		    	  <label>RSS:</label> <a href="http://anbefalinger.deichman.no/feed?list=<%= list['uri']%>&title=<%= list['label']%>">Lista som RSS-strøm</a>
 		    	</div>
 	    		<ol>
 		    		<% list["items"].each do |review| %>
